@@ -1,0 +1,31 @@
+{
+  "name": "ton3-contracts",
+  "version": "0.0.1",
+  "description": "ton3 common contracts",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tonstack/ton3-contracts.git"
+  },
+  "keywords": [
+    "ton",
+    "ton3",
+    "blockchain",
+    "contracts"
+  ],
+  "author": "TonStack",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/tonstack/ton3-contracts/issues"
+  },
+  "homepage": "https://github.com/tonstack/ton3-contracts#readme",
+  "dependencies": {
+    "ton3-core": "^0.0.6"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.3"
+  }
+}
