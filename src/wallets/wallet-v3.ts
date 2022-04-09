@@ -56,15 +56,14 @@ class ContractWalletV3 extends Contracts.ContractBase {
     }
 
     public createTransferMessage (
-        transfers: WalletTransfer[],
-        seqno: number,
-        timeout: number = 60
+        transfers: WalletTransfer[],    // array of transfers
+        seqno: number,                  // sequence transfer number
+        timeout: number = 60            // timeout in seconds
     ): Contracts.MessageExternalIn {
         if (!transfers.length || transfers.length > 4) {
             throw new Error('ContractWalletV3: can make only 1 to 4 transfers per operation.')
         }
 
-        const options = { dest: this.address }
         const body = new Builder()
             .storeUint(this.subwalletId, 32)
             .storeUint(~~(Date.now() / 1000) + timeout, 32) // valid until
@@ -82,7 +81,7 @@ class ContractWalletV3 extends Contracts.ContractBase {
                 .storeRef(internal.cell())
         })
 
-        return new Contracts.MessageExternalIn(options, body.cell(), this.state)
+        return new Contracts.MessageExternalIn({ dest: this.address }, body.cell(), this.state)
     }
 
     public createDeployMessage (): Contracts.MessageExternalIn {
