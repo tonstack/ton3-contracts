@@ -12,4 +12,4 @@ npm i ton3-contracts
 
 ## License
 
-GPL License
+Main repository License: `GNU GENERAL PUBLIC LICENSE Version 3`. The repository contains the source code of various smart contracts, their licenses are compatible with the repository main license. Information about the source code and the license of the contracts can be found in the files that use them.
