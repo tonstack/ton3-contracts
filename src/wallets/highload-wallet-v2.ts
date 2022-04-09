@@ -37,6 +37,8 @@ class ContractHighloadWalletV2 extends Contracts.ContractBase {
         //  code cell hash: 9494D1CC8EDF12F05671A1A9BA09921096EB50811E1924EC65C3C629FBB80812
         //
         //  Respect the rights of open source software. Thanks! :)
+        //  If you notice copyright violation, please create an issue:
+        //  https://github.com/tonstack/ton3-contracts/issues
         //
         //  ---------------------------------------------------------------------------------    
         
