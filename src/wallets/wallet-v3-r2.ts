@@ -28,12 +28,7 @@ import {
     Contracts
 } from 'ton3-core'
 
-interface WalletTransfer {
-    destination: Address
-    amount: Coins
-    body: Cell
-    mode: number
-}
+import { WalletTransfer } from './types'
 
 class ContractWalletV3R2 extends Contracts.ContractBase {
     private publicKey: Uint8Array
@@ -65,15 +60,15 @@ class ContractWalletV3R2 extends Contracts.ContractBase {
     }
 
     constructor (workchain: number, publicKey: Uint8Array, subwalletId = 0) {
-        // TODO: what?!
         super(workchain, new Cell(), new Cell)
-
         const code = BOC.fromStandard(this.stringHexCode)
         const storage = new Builder()
             .storeUint(0, 32)
             .storeUint(subwalletId, 32)
             .storeBytes(publicKey)
             .cell()
+
+        super(workchain, code, storage)
 
         this.publicKey = publicKey
         this.subwalletId = subwalletId

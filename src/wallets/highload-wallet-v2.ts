@@ -26,16 +26,9 @@ import {
     BOC,
     HashmapE,
     Address,
-    Coins,
     Contracts
 } from 'ton3-core'
-
-interface WalletTransfer {
-    destination: Address
-    amount: Coins
-    body: Cell
-    mode: number
-}
+import { WalletTransfer } from './types'
 
 class ContractHighloadWalletV2 extends Contracts.ContractBase {
     private publicKey: Uint8Array
