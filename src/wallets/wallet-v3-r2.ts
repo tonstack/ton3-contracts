@@ -35,21 +35,44 @@ interface WalletTransfer {
     mode: number
 }
 
-class ContractWalletV3 extends Contracts.ContractBase {
+class ContractWalletV3R2 extends Contracts.ContractBase {
     private publicKey: Uint8Array
 
     private subwalletId: number
 
+    get stringHexCode () {
+        //  ---------------------------------------------------------------------------------    
+        //  
+        //  The source code and LICENSE of the "wallet v3 r2" smart contract:
+        //  https://github.com/tonstack/wallet-smcs/tree/main/wallet/v3/r2
+        //
+        //  This(return '...') is a compiled version (byte code) of  
+        //  the smart contract "wallet-v3-r2-code.fif" in the bag of cells
+        //  serialization in hexadecimal representation. 
+        //
+        return 'B5EE9C724101010100710000DEFF0020DD2082014C97BA218201339CBAB19F71'+
+               'B0ED44D0D31FD31F31D70BFFE304E0A4F2608308D71820D31FD31FD31FF82313'+
+               'BBF263ED44D0D31FD31FD3FFD15132BAF2A15144BAF2A204F901541055F910F2'+
+               'A3F8009320D74A96D307D402FB00E8D101A4C8CB1FCB1FCBFFC9ED5410BD6DAD'
+        //
+        //  code cell hash(sha256): 84DAFA449F98A6987789BA232358072BC0F76DC4524002A5D0918B9A75D2D599
+        //
+        //  Respect the rights of open source software. Thanks! :)
+        //  If you notice copyright violation, please create an issue:
+        //  https://github.com/tonstack/ton3-contracts/issues
+        //
+        //  ---------------------------------------------------------------------------------   
+    }
+
     constructor (workchain: number, publicKey: Uint8Array, subwalletId = 0) {
-        const hex = 'B5EE9C724101010100710000DEFF0020DD2082014C97BA218201339CBAB19F71B0ED44D0D31FD31F31D70BFFE304E0A4F2608308D71820D31FD31FD31FF82313BBF263ED44D0D31FD31FD3FFD15132BAF2A15144BAF2A204F901541055F910F2A3F8009320D74A96D307D402FB00E8D101A4C8CB1FCB1FCBFFC9ED5410BD6DAD'
-        const code = BOC.fromStandard(hex)
+        super(workchain, new Cell(), new Cell)
+
+        const code = BOC.fromStandard(this.stringHexCode)
         const storage = new Builder()
             .storeUint(0, 32)
             .storeUint(subwalletId, 32)
             .storeBytes(publicKey)
             .cell()
-
-        super(workchain, code, storage)
 
         this.publicKey = publicKey
         this.subwalletId = subwalletId
@@ -94,4 +117,4 @@ class ContractWalletV3 extends Contracts.ContractBase {
     }
 }
 
-export { ContractWalletV3 }
+export { ContractWalletV3R2 }

@@ -20,9 +20,11 @@ along with ton3-contracts.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 import { ContractHighloadWalletV2 } from './highload-wallet-v2'
-import { ContractWalletV3 } from './wallet-v3'
+import { ContractWalletV3R2 } from './wallet-v3-r2'
+import { ContractWalletV3R0 } from './wallet-v3-r0'
 
 export {
     ContractHighloadWalletV2,
-    ContractWalletV3
+    ContractWalletV3R2,
+    ContractWalletV3R0
 }
