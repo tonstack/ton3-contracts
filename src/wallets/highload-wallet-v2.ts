@@ -75,6 +75,7 @@ class ContractHighloadWalletV2 extends Contracts.ContractBase {
 
     public createTransferMessage (
         transfers: WalletTransfer[],
+        deploy: boolean = false,
         timeout: number = 60
     ): Contracts.MessageExternalIn {
         if (!transfers.length || transfers.length > 100) {
@@ -107,7 +108,11 @@ class ContractHighloadWalletV2 extends Contracts.ContractBase {
         transfers.forEach((transfer, i) => dict.set(i, transfer))
         body.storeDict(dict)
 
-        return new Contracts.MessageExternalIn({ dest: this.address }, body.cell(), this.state)
+        return new Contracts.MessageExternalIn(
+            { dest: this.address }, 
+            body.cell(), 
+            deploy ? this.state : null
+        )
     }
 
     public createDeployMessage (): Contracts.MessageExternalIn {

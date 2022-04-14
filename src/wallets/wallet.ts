@@ -73,7 +73,11 @@ class ContractWallet extends Contracts.ContractBase {
                 .storeRef(internal.cell())
         })
 
-        return new Contracts.MessageExternalIn({ dest: this.address }, body.cell(), this.state)
+        return new Contracts.MessageExternalIn(
+            { dest: this.address }, 
+            body.cell(), 
+            seqno === 0 ? this.state : null
+        )
     }
 
     public createDeployMessage (): Contracts.MessageExternalIn {
