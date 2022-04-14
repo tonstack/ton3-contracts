@@ -65,6 +65,7 @@ class ContractWalletV3R2 extends Contracts.ContractBase {
     }
 
     constructor (workchain: number, publicKey: Uint8Array, subwalletId = 0) {
+        // TODO: what?!
         super(workchain, new Cell(), new Cell)
 
         const code = BOC.fromStandard(this.stringHexCode)

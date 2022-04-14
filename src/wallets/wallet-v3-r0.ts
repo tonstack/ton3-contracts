@@ -1,7 +1,7 @@
 import { ContractWalletV3R2 } from "./wallet-v3-r2";
 
 class ContractWalletV3R0 extends ContractWalletV3R2 {
-    get stringHexCode () {
+    override get stringHexCode () {
         //  ---------------------------------------------------------------------------------    
         //  
         //  The source code and LICENSE of the "wallet v3 r0" smart contract:
