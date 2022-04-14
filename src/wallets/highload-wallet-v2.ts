@@ -53,7 +53,14 @@ class ContractHighloadWalletV2 extends Contracts.ContractBase {
         //  the smart contract "highload-wallet-v2-code.fc" in the bag of cells
         //  serialization in hexadecimal representation. 
         //
-        const hex = 'B5EE9C724101090100E5000114FF00F4A413F4BCF2C80B010201200203020148040501EAF28308D71820D31FD33FF823AA1F5320B9F263ED44D0D31FD33FD3FFF404D153608040F40E6FA131F2605173BAF2A207F901541087F910F2A302F404D1F8007F8E16218010F4786FA5209802D307D43001FB009132E201B3E65B8325A1C840348040F4438AE63101C8CB1F13CB3FCBFFF400C9ED54080004D03002012006070017BD9CE76A26869AF98EB85FFC0041BE5F976A268698F98E99FE9FF98FA0268A91040207A0737D098C92DBFC95DD1F140034208040F4966FA56C122094305303B9DE2093333601926C21E2B39F9E545A'
+        const hex = 'B5EE9C724101090100E5000114FF00F4A413F4BCF2C80B010201200203020148'+
+                    '040501EAF28308D71820D31FD33FF823AA1F5320B9F263ED44D0D31FD33FD3FF'+
+                    'F404D153608040F40E6FA131F2605173BAF2A207F901541087F910F2A302F404'+
+                    'D1F8007F8E16218010F4786FA5209802D307D43001FB009132E201B3E65B8325'+
+                    'A1C840348040F4438AE63101C8CB1F13CB3FCBFFF400C9ED54080004D0300201'+
+                    '2006070017BD9CE76A26869AF98EB85FFC0041BE5F976A268698F98E99FE9FF9'+
+                    '8FA0268A91040207A0737D098C92DBFC95DD1F140034208040F4966FA56C1220'+
+                    '94305303B9DE2093333601926C21E2B39F9E545A'
         //
         //  code cell hash(sha256): 9494D1CC8EDF12F05671A1A9BA09921096EB50811E1924EC65C3C629FBB80812
         //
@@ -65,10 +72,10 @@ class ContractHighloadWalletV2 extends Contracts.ContractBase {
         
         const code = BOC.fromStandard(hex)
         const storage = new Builder()
-            .storeUint(subwalletId, 32) // stored_subwallet
-            .storeUint(0, 64) // last_cleaned
-            .storeBytes(publicKey) // public_key
-            .storeDict(new HashmapE(16)) // old_queries
+            .storeUint(subwalletId, 32)     // stored_subwallet
+            .storeUint(0, 64)               // last_cleaned
+            .storeBytes(publicKey)          // public_key
+            .storeDict(new HashmapE(16))    // old_queries
             .cell()
 
         super(workchain, code, storage)
@@ -114,9 +121,7 @@ class ContractHighloadWalletV2 extends Contracts.ContractBase {
         }
 
         const dict = new HashmapE<number, WalletTransfer>(16, { serializers })
-
         transfers.forEach((transfer, i) => dict.set(i, transfer))
-
         body.storeDict(dict)
 
         return new Contracts.MessageExternalIn({ dest: this.address }, body.cell(), this.state)
