@@ -1,4 +1,4 @@
-import { Address, Cell, Coins } from "ton3-core"
+import { Address, Cell, Coins } from 'ton3-core'
 
 interface WalletTransfer {
     destination: Address
@@ -8,3 +8,4 @@ interface WalletTransfer {
 }
 
 export { WalletTransfer }
+
