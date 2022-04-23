@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/tonstack/ton3-contracts#readme",
   "dependencies": {
-    "ton3-core": "0.0.8"
+    "ton3-core": "^0.0.8"
   },
   "devDependencies": {
     "typescript": "^4.6.3"
