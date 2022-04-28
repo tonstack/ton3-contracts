@@ -67,22 +67,23 @@ class ContractHighloadWalletV2 extends Contracts.ContractBase {
         this.subwalletId = subwalletId
     }
 
-    private static generateQueryId (timeout: number): bigint {
+    static generateQueryId(timeout: number = 60, randomId?: number) {
         const now = Math.floor(Date.now() / 1000)
+        const random = randomId || typeof randomId === 'number' ? randomId : Math.floor(Math.random() * Math.pow(2, 30))
 
-        return (BigInt((now + timeout)) << 32n) - 1n
+        return (BigInt(now + timeout) << 32n) | BigInt(random)
     }
 
     public createTransferMessage (
         transfers: WalletTransfer[],
         deploy: boolean = false,
-        timeout: number = 60
+        _queryId?: bigint
     ): Contracts.MessageExternalIn {
         if (!transfers.length || transfers.length > 100) {
             throw new Error('ContractHighloadWalletV2: can make only 1 to 100 transfers per operation.')
         }
 
-        const queryId = ContractHighloadWalletV2.generateQueryId(timeout)
+        const queryId = ContractHighloadWalletV2.generateQueryId()
         const body = new Builder()
             .storeUint(this.subwalletId, 32)
             .storeUint(queryId, 64)
