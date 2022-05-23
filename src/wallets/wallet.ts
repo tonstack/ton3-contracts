@@ -67,16 +67,15 @@ class ContractWallet extends Contracts.ContractBase {
                 src: Address.NONE,
                 dest: transfer.destination,
                 value: transfer.amount
-            }, transfer.body)
+            }, { body: transfer.body })
 
             body.storeUint(transfer.mode, 8)
                 .storeRef(internal.cell())
         })
 
         return new Contracts.MessageExternalIn(
-            { dest: this.address }, 
-            body.cell(), 
-            seqno === 0 ? this.state : null
+            { dest: this.address },
+            { body: body.cell(), state: seqno === 0 ? this.state : null }
         )
     }
 
@@ -86,7 +85,7 @@ class ContractWallet extends Contracts.ContractBase {
             .storeInt(-1, 32) // valid until
             .storeUint(0, 32) // seqno
 
-        return new Contracts.MessageExternalIn({ dest: this.address }, body.cell(), this.state)
+        return new Contracts.MessageExternalIn({ dest: this.address }, { body: body.cell(), state: this.state })
     }
 }
 
