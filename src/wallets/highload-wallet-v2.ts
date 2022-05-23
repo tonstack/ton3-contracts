@@ -95,7 +95,7 @@ class ContractHighloadWalletV2 extends Contracts.ContractBase {
                     src: Address.NONE,
                     dest: v.destination,
                     value: v.amount
-                }, v.body)
+                }, { body: v.body })
 
                 return new Builder()
                     .storeUint(v.mode, 8) // send mode
@@ -109,9 +109,8 @@ class ContractHighloadWalletV2 extends Contracts.ContractBase {
         body.storeDict(dict)
 
         return new Contracts.MessageExternalIn(
-            { dest: this.address }, 
-            body.cell(), 
-            deploy ? this.state : null
+            { dest: this.address },
+            { body: body.cell(), state: deploy ? this.state : null }
         )
     }
 
@@ -122,7 +121,7 @@ class ContractHighloadWalletV2 extends Contracts.ContractBase {
             .storeUint(queryId, 64) // query_id
             .storeDict(new HashmapE(16))
 
-        return new Contracts.MessageExternalIn({ dest: this.address }, body.cell(), this.state)
+        return new Contracts.MessageExternalIn({ dest: this.address }, { body: body.cell(), state: this.state })
     }
 }
 
