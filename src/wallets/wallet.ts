@@ -22,7 +22,6 @@ along with ton3-contracts.  If not, see <https://www.gnu.org/licenses/>.
 import {
     Builder,
     Cell,
-    BOC,
     Address,
     Contracts
 } from 'ton3-core'
@@ -67,10 +66,9 @@ class ContractWallet extends Contracts.ContractBase {
                 src: Address.NONE,
                 dest: transfer.destination,
                 value: transfer.amount
-            }, { body: transfer.body })
+            }, { body: transfer.body, state: transfer.init })
 
-            body.storeUint(transfer.mode, 8)
-                .storeRef(internal.cell())
+            body.storeUint(transfer.mode, 8).storeRef(internal.cell())
         })
 
         return new Contracts.MessageExternalIn(
@@ -85,7 +83,10 @@ class ContractWallet extends Contracts.ContractBase {
             .storeInt(-1, 32) // valid until
             .storeUint(0, 32) // seqno
 
-        return new Contracts.MessageExternalIn({ dest: this.address }, { body: body.cell(), state: this.state })
+        return new Contracts.MessageExternalIn(
+            { dest: this.address }, 
+            { body: body.cell(), state: this.state }
+        )
     }
 }
 

@@ -4,6 +4,7 @@ interface WalletTransfer {
     destination: Address
     amount: Coins
     body: Cell
+    init?: Cell
     mode: number
 }
 
