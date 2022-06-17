@@ -67,22 +67,24 @@ class ContractHighloadWalletV2 extends Contracts.ContractBase {
         this.subwalletId = subwalletId
     }
 
-    private static generateQueryId (timeout: number): bigint {
+    private static generateQueryId (timeout: number, randomId?: number): bigint {
         const now = Math.floor(Date.now() / 1000)
+        const random = randomId || Math.floor(Math.random() * Math.pow(2, 30))
 
-        return (BigInt((now + timeout)) << 32n) - 1n
+        return (BigInt(now + timeout) << 32n) | BigInt(random)
     }
 
     public createTransferMessage (
         transfers: WalletTransfer[],
         deploy: boolean = false,
-        timeout: number = 60
+        timeout: number = 60,
+        _queryId?: bigint
     ): Contracts.MessageExternalIn {
         if (!transfers.length || transfers.length > 100) {
             throw new Error('ContractHighloadWalletV2: can make only 1 to 100 transfers per operation.')
         }
 
-        const queryId = ContractHighloadWalletV2.generateQueryId(timeout)
+        const queryId = _queryId || ContractHighloadWalletV2.generateQueryId(timeout)
         const body = new Builder()
             .storeUint(this.subwalletId, 32)
             .storeUint(queryId, 64)
@@ -95,7 +97,7 @@ class ContractHighloadWalletV2 extends Contracts.ContractBase {
                     src: Address.NONE,
                     dest: v.destination,
                     value: v.amount
-                }, { body: v.body })
+                }, { body: v.body, state: v.init })
 
                 return new Builder()
                     .storeUint(v.mode, 8) // send mode
@@ -117,11 +119,14 @@ class ContractHighloadWalletV2 extends Contracts.ContractBase {
     public createDeployMessage (): Contracts.MessageExternalIn {
         const queryId = ContractHighloadWalletV2.generateQueryId(2 ** 16)
         const body = new Builder()
-            .storeUint(this.subwalletId, 32) // subwallet_id
-            .storeUint(queryId, 64) // query_id
+            .storeUint(this.subwalletId, 32)    // subwallet_id
+            .storeUint(queryId, 64)             // query_id
             .storeDict(new HashmapE(16))
 
-        return new Contracts.MessageExternalIn({ dest: this.address }, { body: body.cell(), state: this.state })
+        return new Contracts.MessageExternalIn(
+            { dest: this.address }, 
+            { body: body.cell(), state: this.state }
+        )
     }
 }
 
