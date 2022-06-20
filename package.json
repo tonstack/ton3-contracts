@@ -1,6 +1,6 @@
 {
   "name": "ton3-contracts",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "ton3 common contracts",
   "main": "./dist/index.js",
   "scripts": {
