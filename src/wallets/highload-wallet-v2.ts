@@ -80,8 +80,8 @@ class ContractHighloadWalletV2 extends Contracts.ContractBase {
         timeout: number = 60,
         _queryId?: bigint
     ): Contracts.MessageExternalIn {
-        if (!transfers.length || transfers.length > 100) {
-            throw new Error('ContractHighloadWalletV2: can make only 1 to 100 transfers per operation.')
+        if (!transfers.length || transfers.length > 255) {
+            throw new Error('ContractHighloadWalletV2: can make only 1 to 255 transfers per operation.')
         }
 
         const queryId = _queryId || ContractHighloadWalletV2.generateQueryId(timeout)
