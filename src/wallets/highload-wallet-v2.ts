@@ -47,12 +47,24 @@ https://github.com/tonstack/ton3-contracts/issues
 
 const COMPILED = 'B5EE9C724101090100E5000114FF00F4A413F4BCF2C80B010201200203020148040501EAF28308D71820D31FD33FF823AA1F5320B9F263ED44D0D31FD33FD3FFF404D153608040F40E6FA131F2605173BAF2A207F901541087F910F2A302F404D1F8007F8E16218010F4786FA5209802D307D43001FB009132E201B3E65B8325A1C840348040F4438AE63101C8CB1F13CB3FCBFFF400C9ED54080004D03002012006070017BD9CE76A26869AF98EB85FFC0041BE5F976A268698F98E99FE9FF98FA0268A91040207A0737D098C92DBFC95DD1F140034208040F4966FA56C122094305303B9DE2093333601926C21E2B39F9E545A'
 
+interface ContractHighloadWalletV2Options {
+    workchain: number
+    publicKey: Uint8Array
+    subwalletId?: number
+}
+
 class ContractHighloadWalletV2 extends Contracts.ContractBase {
     private publicKey: Uint8Array
 
     private subwalletId: number
 
-    constructor (workchain: number, publicKey: Uint8Array, subwalletId = 0) {
+    constructor (options: ContractHighloadWalletV2Options) {
+        const {
+            workchain,
+            publicKey,
+            subwalletId = 0
+        } = options
+
         const code = BOC.fromStandard(COMPILED)
         const storage = new Builder()
             .storeUint(subwalletId, 32)     // stored_subwallet
@@ -61,7 +73,7 @@ class ContractHighloadWalletV2 extends Contracts.ContractBase {
             .storeDict(new HashmapE(16))    // old_queries
             .cell()
 
-        super(workchain, code, storage)
+        super({ workchain, code, storage })
 
         this.publicKey = publicKey
         this.subwalletId = subwalletId
