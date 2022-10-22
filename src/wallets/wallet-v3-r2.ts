@@ -39,11 +39,23 @@ https://github.com/tonstack/ton3-contracts/issues
 
 const COMPILED = 'B5EE9C724101010100710000DEFF0020DD2082014C97BA218201339CBAB19F71B0ED44D0D31FD31F31D70BFFE304E0A4F2608308D71820D31FD31FD31FF82313BBF263ED44D0D31FD31FD3FFD15132BAF2A15144BAF2A204F901541055F910F2A3F8009320D74A96D307D402FB00E8D101A4C8CB1FCB1FCBFFC9ED5410BD6DAD'
 
+interface ContractWalletV3R2Options {
+    workchain: number
+    publicKey: Uint8Array
+    subwalletId?: number
+}
+
 class ContractWalletV3R2 extends ContractWallet {
-    constructor (workchain: number, publicKey: Uint8Array, subwalletId = 0) {
+    constructor (options: ContractWalletV3R2Options) {
+        const {
+            workchain,
+            publicKey,
+            subwalletId = 0
+        } = options
+
         const code = BOC.fromStandard(COMPILED)
 
-        super(code, workchain, publicKey, subwalletId)
+        super({ code, workchain, publicKey, subwalletId })
     }
 }
 

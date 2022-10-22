@@ -1,6 +1,6 @@
 {
   "name": "ton3-contracts",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "ton3 common contracts",
   "main": "./dist/index.js",
   "scripts": {
@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/tonstack/ton3-contracts#readme",
   "dependencies": {
-    "ton3-core": "0.0.16"
+    "ton3-core": "0.0.18"
   },
   "devDependencies": {
     "typescript": "^4.6.3"

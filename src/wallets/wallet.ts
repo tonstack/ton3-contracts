@@ -28,19 +28,33 @@ import {
 
 import { WalletTransfer } from '../types/wallet-transfer'
 
+interface ContracWalletOptions {
+    code: Cell
+    workchain: number
+    publicKey: Uint8Array
+    subwalletId?: number
+}
+
 class ContractWallet extends Contracts.ContractBase {
     private publicKey: Uint8Array
 
     private subwalletId: number
 
-    constructor (code: Cell, workchain: number, publicKey: Uint8Array, subwalletId = 0) {
+    constructor (options: ContracWalletOptions) {
+        const {
+            code,
+            workchain,
+            publicKey,
+            subwalletId = 0
+        } = options
+
         const storage = new Builder()
             .storeUint(0, 32)
             .storeUint(subwalletId, 32)
             .storeBytes(publicKey)
             .cell()
 
-        super(workchain, code, storage)
+        super({ workchain, code, storage })
 
         this.publicKey = publicKey
         this.subwalletId = subwalletId
